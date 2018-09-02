@@ -1,0 +1,8 @@
+
+
+import os
+os.chdir('/home/linsam/project/re_AI_order_ticket/verification_code_to_text/build_model')
+from load_handwritten_model import load_handwritten_model
+
+
+model = load_handwritten_model()

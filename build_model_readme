@@ -1,0 +1,12 @@
+
+
+import os
+os.chdir('/home/linsam/project/re_AI_order_ticket/verification_code_to_text/build_model')
+from build_verification_code_cnn_model import build_verification_code_cnn_model
+
+
+tem = build_verification_code_cnn_model()
+tem.build_model_process()
+
+
+
