@@ -1,36 +1,31 @@
 
-import cv2
-import pandas as pd
 import numpy as np
-import os
 import matplotlib.pyplot as plt
-import sys
-import time
 #-------------------------- set gpu using tf ---------------------------
 import tensorflow as tf
 config = tf.ConfigProto()
 config.gpu_options.allow_growth = True
 session = tf.Session(config=config)
 #-------------------  start importing keras module ---------------------
-import keras.utils.np_utils as kutils
 from keras.optimizers import RMSprop
-sys.path.append('/home/linsam/project/fb_chatbot/verification_code2text')
-from work_vcode import *
-import build_VCode_5or6_model
-import ImageProcessing
-
-#os.chdir('/home/linsam/project/re_AI_order_ticket/verification_code_to_text') # 設定資料夾位置
+import os
+import sys
+path = os.listdir('/home')[0]
+sys.path.append('/home/'+ path +'/github')
+#sys.path.append('/home/linsam/project/fb_chatbot/verification_code2text')
+from VerificationCode2Text import build_VCode_5or6_model
 #os.getcwd()
 #sys.path.getwd()
 #=====================================================================
 #=====================================================================
 '''
 import time
-work_vcode_fun(20000,'train_data_5',5)
-work_vcode_fun(20000,'train_data_6',6)
+from VerificationCode2Text import work_vcode
+work_vcode.work_vcode_fun(20,'train_data_5',5)
+work_vcode.work_vcode_fun(20,'train_data_6',6)
 
-work_vcode_fun(2000,'test_data_5',5)
-work_vcode_fun(2000,'test_data_6',6)
+work_vcode.work_vcode_fun(2000,'test_data_5',5)
+work_vcode.work_vcode_fun(2000,'test_data_6',6)
 
 
 # 0.99645 0.99475
@@ -264,7 +259,7 @@ class build_VCode_model(build_VCode_5or6_model.build_VCode_5or6_model):
         #-----------------------------------------------
         def change_character(pred_prob,total_set):
                     
-            total_amount = len(total_set)
+            #total_amount = len(total_set)
     
             for i in range(len(pred_prob)):
                 if pred_prob[i] == max( pred_prob ):
@@ -338,8 +333,8 @@ class build_VCode_model(build_VCode_5or6_model.build_VCode_5or6_model):
         self.compare_val_train_error()
         self.show_history_plot()
         
-        os.chdir('/home/linsam/project/fb_chatbot/verification_code2text')
-        self.model.save_weights('cnn_weight/'+self.weight_name+'.h5')
+        tem = '/home/linsam/github/VerificationCode2Text/'
+        self.model.save_weights( tem + 'cnn_weight/'+self.weight_name+'.h5')
         
         # 0.995475 0.992875
 

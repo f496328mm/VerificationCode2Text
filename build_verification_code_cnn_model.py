@@ -1,10 +1,6 @@
 
 import cv2
-import re 
-import random
-import pandas as pd
 import numpy as np
-import os
 import matplotlib.pyplot as plt
 #-------------------------- set gpu using tf ---------------------------
 import tensorflow as tf
@@ -12,26 +8,21 @@ config = tf.ConfigProto()
 config.gpu_options.allow_growth = True
 session = tf.Session(config=config)
 #-------------------  start importing keras module ---------------------
-import keras.utils.np_utils as kutils
-from sklearn.model_selection import train_test_split
-from keras.utils.np_utils import to_categorical # convert to one-hot-encoding
-from keras.models import Sequential
-from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPool2D
 from keras.optimizers import RMSprop
-from keras.preprocessing.image import ImageDataGenerator
-from keras.callbacks import ReduceLROnPlateau
-import time
-os.chdir('/home/linsam/project/re_AI_order_ticket/verification_code_to_text/build_model')
-from work_vcode import *
-
-os.chdir('/home/linsam/project/re_AI_order_ticket/verification_code_to_text') # 設定資料夾位置
+import os
+import sys
+path = os.listdir('/home')[0]
+sys.path.append('/home/'+ path +'/github')
+# os.chdir('/home/linsam/project/re_AI_order_ticket/verification_code_to_text') # 設定資料夾位置
 #os.getcwd()
 #=====================================================================
 # test
 '''
-work_vcode_fun(500,'train_data')
-
-work_vcode_fun(100,'test_data')
+from VerificationCode2Text import work_vcode
+work_vcode.work_vcode_fun(50,'train_data',5)
+work_vcode.work_vcode_fun(50,'train_data',6)
+work_vcode.work_vcode_fun(10,'test_data',5)
+work_vcode.work_vcode_fun(10,'test_data',6)
 
 s = time.time() 
 tem = build_verification_code_cnn_model()
@@ -60,9 +51,7 @@ class build_verification_code_cnn_model:
         self.test_data,self.test_labels = self.input_data('test_data',40000)
 
         self.train_verification_model()
-        
-        #print( self.train_correct1,'\n' , self.test_correct1 )
-        #print( self.train_correct2,'\n' , self.test_correct2 )
+
         print( self.train_correct3,'\n' , self.test_correct3 )
         print( self.train_final_score,'\n', self.test_final_score )
         # 20000 data,  final correct : 0.88975  0.68625
@@ -74,8 +63,9 @@ class build_verification_code_cnn_model:
         
         self.show_train_history()
         
-        os.chdir('/home/linsam/project/re_AI_order_ticket/verification_code_to_text')
-        self.model.save_weights('build_model/cnn_weight/verificatioin_code.h5')
+        #os.chdir('/home/linsam/project/re_AI_order_ticket/verification_code_to_text')
+        tem = '/home/'+ path +'/github/VerificationCode2Text/'
+        self.model.save_weights(tem + 'cnn_weight/verificatioin_code.h5')
                 
     def load_data_and_translate_type_for_DL(self):
 
@@ -86,10 +76,11 @@ class build_verification_code_cnn_model:
     
     def input_data(self,file_path,n):
         
-        os.chdir('/home/linsam/project/re_AI_order_ticket/verification_code_to_text'+
-        '/build_model') # 設定資料夾位置
-        # file_path = 'train_data'
-        file_path = file_path+'/'
+        #os.chdir('/home/linsam/project/re_AI_order_ticket/verification_code_to_text'+
+        #'/build_model') # 設定資料夾位置
+        # file_path = 'train_data_5'; n = 10
+        tem = '/home/'+ path +'/github/VerificationCode2Text/'
+        file_path = tem + file_path+'/'
         train_image_path = [file_path + i for i in os.listdir(file_path+'/')][:n]
         #-------------------------------------------------------
         def change_onehotencoder(text_set,total_set):
@@ -149,7 +140,7 @@ class build_verification_code_cnn_model:
 
         def build_cnn_model():
             from keras.models import Model
-            from keras.layers import Input, Dense, Dropout, Flatten, Conv2D, MaxPooling2D
+            from keras.layers import Input, Conv2D, Dropout, Dense, Flatten, MaxPooling2D
             
             tensor_in = Input((60, 200, 3))
             tensor_out = tensor_in
@@ -208,7 +199,7 @@ class build_verification_code_cnn_model:
         #-----------------------------------------------
         def change_character(pred_prob,total_set):
                     
-            total_amount = len(total_set)
+            #total_amount = len(total_set)
     
             for i in range(len(pred_prob)):
                 if pred_prob[i] == max( pred_prob ):
@@ -220,9 +211,10 @@ class build_verification_code_cnn_model:
         def compare_error(file_path,self,data):
             # file_path = 'train_data'
             # data = self.train_data
-            os.chdir('/home/linsam/project/re_AI_order_ticket/verification_code_to_text'+
-            '/build_model')
-            file_path = file_path+'/'
+            #os.chdir('/home/linsam/project/re_AI_order_ticket/verification_code_to_text'+
+            #'/build_model')
+            tem = '/home/'+ path +'/github/VerificationCode2Text/'
+            file_path = tem + file_path+'/'
             train_image_path = [file_path + i for i in os.listdir(file_path+'/')][:len(data)]
             
             labels_set=[]
@@ -266,9 +258,8 @@ class build_verification_code_cnn_model:
         def compare_final_error(file_path,self,data):
             # file_path = 'train_data'
             # data = self.train_data
-            os.chdir('/home/linsam/project/re_AI_order_ticket/verification_code_to_text'+
-            '/build_model')
-            file_path = file_path+'/'
+            tem = '/home/'+ path +'/github/VerificationCode2Text/'
+            file_path = tem + file_path+'/'
             train_image_path = [file_path + i for i in os.listdir(file_path+'/')][:len(data)]
             
             labels_set=[]
@@ -279,14 +270,13 @@ class build_verification_code_cnn_model:
                 labels_set.append( text )
             #----------------------------------------------------------------
             #prediction = self.model.predict(self.train_data, verbose=1)
-            prediction = self.model.predict(data, verbose=1)
+            #prediction = self.model.predict(data, verbose=1)
             amount = len(labels_set)
             resultlist = ["" for _ in range(amount)]
             
-            for i in range(amount):
-                for j in range(len(prediction)):
+            #for i in range(amount):
+                #for j in range(len(prediction)):
                     #print(j)
-
             #----------------------------------------------------------------
             total = len(resultlist)
             score = 0

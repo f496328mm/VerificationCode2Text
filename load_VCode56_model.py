@@ -1,7 +1,4 @@
 
-import os
-import cv2
-import matplotlib.pyplot as plt
 #-------------------------- set gpu using tf ---------------------------
 import tensorflow as tf
 config = tf.ConfigProto()
@@ -10,14 +7,18 @@ session = tf.Session(config=config)
 #-------------------  start importing keras module ---------------------
 # DL model packages
 from keras.optimizers import RMSprop
-import SelectModel5or6
+import os
+import sys
+path = os.listdir('/home')[0]
+sys.path.append('/home/'+ path +'/github')
 
 #=====================================================================
 # test
 '''
+from VerificationCode2Text import SelectModel5or6
 
-os.chdir('/home/linsam/project/fb_chatbot/verification_code2text/test_data/')
-image_name = '0ACQP9.jpg'
+tem = '/home/'+ path +'/github/VerificationCode2Text/test_data/'
+image_name = tem + '0ACQP9.jpg'
 image = cv2.imread(image_name)
 plt.imshow(image)
 label_amount = SelectModel5or6.main(image)
@@ -72,9 +73,9 @@ def main(label_amount):
     # Define the optimizer
     model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
     # model.summary()
-
-    os.chdir('/home/linsam/project/fb_chatbot/verification_code2text')                  
-    model.load_weights('cnn_weight/VCode'+str(label_amount)+'.h5') 
+ 
+    tem = '/home/'+ path +'/github/VerificationCode2Text/'              
+    model.load_weights(tem + 'cnn_weight/VCode'+str(label_amount)+'.h5') 
     
     return model
 

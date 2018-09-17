@@ -8,20 +8,22 @@ Created on Wed Feb 28 23:09:24 2018
 
 import os
 import sys
-sys.path.append('/home/linsam/project/fb_chatbot/verification_code2text')
-import load_VCode_5or6_model
+path = os.listdir('/home')[0]
+sys.path.append('/home/'+ path +'/github')
+from VerificationCode2Text import load_VCode_5or6_model
 # my function / class
 #============================================
-import cv2
 import numpy as np
-import matplotlib.pyplot as plt
 
 #===============================================================
 
 
 '''
-os.chdir('/home/linsam/project/fb_chatbot/verification_code2text/test_data/')
-image_name = '0ACQP9.jpg'
+import cv2
+import matplotlib.pyplot as plt
+
+tem = '/home/'+ path +'/github/VerificationCode2Text/test_data/' 
+image_name = tem + '1D5GE.jpg'
 image = cv2.imread(image_name)
 plt.imshow(image)
 Select_Model = main(image)

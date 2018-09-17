@@ -1,11 +1,7 @@
 
 import cv2
-
-import pandas as pd
 import numpy as np
-import os
 import matplotlib.pyplot as plt
-import sys
 #-------------------------- set gpu using tf ---------------------------
 import tensorflow as tf
 config = tf.ConfigProto()
@@ -14,8 +10,12 @@ session = tf.Session(config=config)
 #-------------------  start importing keras module ---------------------
 import keras.utils.np_utils as kutils
 from keras.optimizers import RMSprop
-sys.path.append('/home/linsam/project/fb_chatbot/verification_code2text')
-from work_vcode import *
+import random
+import os
+import sys
+path = os.listdir('/home')[0]
+sys.path.append('/home/'+ path +'/github')
+#from work_vcode import *
 #import ImageProcessing
 
 #os.chdir('/home/linsam/project/re_AI_order_ticket/verification_code_to_text') # 設定資料夾位置
@@ -51,7 +51,7 @@ class InputData:
         #sys.path.append('/home/linsam/project/re_AI_order_ticket/verification_code_to_text'+
         #'/build_model/') # 設定資料夾位置
         # file_path = 'train_data_5'
-        file_path = '/home/linsam/project/fb_chatbot/verification_code2text/'+file_path+'/'
+        file_path = '/home/linsam/github/VerificationCode2Text/'+file_path+'/'
         self.train_image_path = [file_path + i for i in os.listdir(file_path+'/')][:n]
     
     def input_train_data(self):
@@ -265,8 +265,9 @@ class build_VCode_5or6_model:
         self.train_verification_model()
         self.show_history_plot()
         
-        os.chdir('/home/linsam/project/fb_chatbot/verification_code2text')
-        self.model.save_weights('cnn_weight/VCode_5or6.h5')
+        #os.chdir('/home/linsam/project/fb_chatbot/verification_code2text')
+        tem = '/home/'+ path +'/github/VerificationCode2Text'
+        self.model.save_weights(tem + '/cnn_weight/VCode_5or6.h5')
         # 0.995475 0.992875
 
         

@@ -1,16 +1,12 @@
 #==========================================================
 
-import urllib
 from PIL import Image
-import os
 import matplotlib.pyplot as plt
 import cv2
-import matplotlib.image as mpimg
-import numpy as np
-import pandas as pd
-import math
-import re
-os.chdir('/home/linsam/project/fb_chatbot/verification_code2text')
+import os
+import sys
+path = os.listdir('/home')[0]
+sys.path.append('/home/'+ path +'/github')
 
 #============================function============================
 
@@ -95,31 +91,16 @@ def catch_axis_start_and_end(im4,axis='x'):
         split_num_end = max(split)
     
     return split_num_start,split_num_end
-    
-def my_plt_fun(split_num_start,split_num_end,k):
-    
-    start = split_num_start[k]-3
-    end = split_num_end[k]+3
-    img = im4[:,start:end,:]
-    
-    plt.imshow(img)
-    
-    y_start,y_end = catch_axis_start_and_end(img,axis='y')
-    y_start = y_start-3
-    y_end = y_end+3
-    
-    img2 = img[y_start:y_end,:,:]
-    plt.imshow(img2)
-    plt.savefig('split_image_' + str(k) + '.png')
-    return img2
 
 #============================main============================
 
 # input image
 '''
+import os
 import sys
-sys.path.append('/home/linsam/project/fb_chatbot/verification_code2text')
-from work_vcode import *
+path = os.listdir('/home')[0]
+sys.path.append('/home/'+ path +'/github')
+from VerificationCode2Text.work_vcode import work_vcode_fun
 import random
 
 work_vcode_fun(50000,'train_data_5',5)
@@ -131,7 +112,7 @@ work_vcode_fun(5000,'test_data',6)
 
 
 file_path = 'test_data'
-file_path = '/home/linsam/project/fb_chatbot/verification_code2text/'+file_path+'/'
+file_path = ''/home/'+ path +'/github/VerificationCode2Text' + file_path + '/'
 train_image_path = [file_path + i for i in os.listdir(file_path+'/')]
 
 image_name = train_image_path[random.sample( range(10000) ,1)[0]]

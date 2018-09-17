@@ -1,5 +1,8 @@
 
 import os
+import sys
+path = os.listdir('/home')[0]
+sys.path.append('/home/'+ path +'/github')
 #-------------------------- set gpu using tf ---------------------------
 import tensorflow as tf
 config = tf.ConfigProto()
@@ -7,16 +10,7 @@ config.gpu_options.allow_growth = True
 session = tf.Session(config=config)
 #-------------------  start importing keras module ---------------------
 # DL model packages
-import keras.utils.np_utils as kutils
-from sklearn.model_selection import train_test_split
-from keras.utils.np_utils import to_categorical # convert to one-hot-encoding
-from keras.models import Sequential
-from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPool2D
 from keras.optimizers import RMSprop
-from keras.preprocessing.image import ImageDataGenerator
-from keras.callbacks import ReduceLROnPlateau
-
-
 #=====================================================================
 # test
 '''
@@ -60,8 +54,9 @@ def main():
     model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
     # model.summary()
 
-    os.chdir('/home/linsam/project/fb_chatbot/verification_code2text')                  
-    model.load_weights('cnn_weight/VCode_5or6.h5') 
+    #os.chdir('/home/linsam/project/fb_chatbot/verification_code2text')    
+    tem =  '/home/'+ path +'/github/VerificationCode2Text/'              
+    model.load_weights(tem + 'cnn_weight/VCode_5or6.h5') 
     
     return model
 

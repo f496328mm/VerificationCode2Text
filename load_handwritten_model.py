@@ -1,23 +1,14 @@
 
 import os
+import sys
+path = os.listdir('/home')[0]
+sys.path.append('/home/'+ path +'/github')
 #-------------------------- set gpu using tf ---------------------------
 import tensorflow as tf
 config = tf.ConfigProto()
 config.gpu_options.allow_growth = True
 session = tf.Session(config=config)
 #-------------------  start importing keras module ---------------------
-# DL model packages
-import keras.utils.np_utils as kutils
-from sklearn.model_selection import train_test_split
-from keras.utils.np_utils import to_categorical # convert to one-hot-encoding
-from keras.models import Sequential
-from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPool2D
-from keras.optimizers import RMSprop
-from keras.preprocessing.image import ImageDataGenerator
-from keras.callbacks import ReduceLROnPlateau
-
-
-#=====================================================================
 # test
 '''
 
@@ -59,9 +50,9 @@ def load_handwritten_model():
     
     # Define the optimizer
     model.compile(loss='categorical_crossentropy', optimizer='Adamax', metrics=['accuracy'])
-                  
-    os.chdir('/home/linsam/project/re_AI_order_ticket/verification_code_to_text')                  
-    model.load_weights('build_model/cnn_weight/verificatioin_code.h5') 
+    tem = '/home/'+ path +'/github/VerificationCode2Text/'
+    #os.chdir('/home/linsam/project/re_AI_order_ticket/verification_code_to_text')                  
+    model.load_weights(tem + 'cnn_weight/verificatioin_code.h5') 
     
     return model
 

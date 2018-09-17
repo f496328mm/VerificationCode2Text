@@ -1,5 +1,4 @@
 
-# ref by https://github.com/f496328mm/simple-railway-captcha-solver
 
 from PIL import Image, ImageDraw, ImageFont
 from random import randint
@@ -132,7 +131,3 @@ def work_vcode_fun(amount,file_path,amount2):# amount = 5 ; file_path = 'test_da
     # plt.imshow(captcha)
 #====================================================
         
-
-        
-    
-

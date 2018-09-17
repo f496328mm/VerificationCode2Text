@@ -1,42 +1,37 @@
 
 import os
 import sys
-#============================================
-# my function / class
-sys.path.append('/home/linsam/project/fb_chatbot/verification_code2text/')
-#from load_handwritten_model import load_handwritten_model
-import SelectModel56
+path = os.listdir('/home')[0]
+sys.path.append('/home/'+ path +'/github')
+from VerificationCode2Text import SelectModel56
 # my function / class
 #============================================
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-
 #===============================================================
 
+def test():
+    import random
+    
+    file_path = 'test_data'
+    file_path = '/home/'+ path +'/github' + '/VerificationCode2Text/'+file_path+'/'
+    train_image_path = [file_path + i for i in os.listdir(file_path+'/')]
+    
+    image_name = train_image_path[random.sample( range(10) ,1)[0]]
+    
+    image = cv2.imread(image_name)
+    plt.imshow(image)
+    
+    text = main(image)
+    print(text)
 
-'''
-import random
 
-file_path = 'test_data'
-file_path = '/home/linsam/project/fb_chatbot/verification_code2text/'+file_path+'/'
-train_image_path = [file_path + i for i in os.listdir(file_path+'/')]
-
-image_name = train_image_path[random.sample( range(100) ,1)[0]]
-
-image = cv2.imread(image_name)
-plt.imshow(image)
-
-text = main(image)
-print(text)
-
-'''
 
 def validation(test_path):
-    
 
     file_path = 'success_vcode'
-    file_path = '/home/linsam/project/fb_chatbot/verification_code2text/'+file_path+'/'
+    file_path = '/home/'+ path +'/github/VerificationCode2Text/'+file_path+'/'
     test_image_path = [file_path + i for i in os.listdir(file_path+'/')]
     
     sum_count = len(test_image_path)
@@ -62,7 +57,6 @@ def validation(test_path):
         text_set = text.replace('.png','')
         real_labels.append(text_set)
 
-
     #self.real_labels = real_labels            
     
     image = cv2.imread(image_name)
@@ -70,9 +64,6 @@ def validation(test_path):
     
     text = main(image)
     print(text)
-
-
-
 
 def main(image):
 #def verification_code_to_text(image_name):
@@ -97,7 +88,6 @@ def main(image):
     train_set[0] = image
 
     model = SelectModel56.main(image)
-
     result = model.predict(train_set)
 
     resultlist = ''
